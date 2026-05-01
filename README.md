@@ -1,84 +1,63 @@
-📬 Newsletter Platform
+# Newsletter Automática
 
-A flexible and customizable newsletter platform designed to create, manage, and deliver newsletters for any purpose — from finance and tech to education, marketing, or personal content.
+Projeto de automação que utiliza um agente de IA para gerar conteúdo e enviar uma newsletter por email.
 
-🚀 Overview
+## Estrutura do projeto
 
-This project provides a foundation for building and managing newsletters in a scalable way. It allows you to collect subscribers, create content, and distribute updates efficiently.
+- `src/agente_websearch.py` - script principal que carrega o prompt e executa o agente de pesquisa.
+- `src/tool_envio_email.py` - ferramenta de envio de email usando `smtplib` e variáveis de ambiente para credenciais.
+- `prompts/prompt.md` - prompt de instrução usado pelo agente para gerar o conteúdo financeiro.
+- `requirements.txt` - dependências do projeto.
 
-Although originally inspired by a financial newsletter use case, this project is fully adaptable to any type of newsletter.
+## Como funciona
 
-✨ Features
-📩 Subscriber management (add, remove, list)
-📝 Newsletter creation and editing
-📤 Email delivery system (or integration-ready)
-📊 Basic analytics (optional)
-⚙️ Configurable for different newsletter niches
-🔌 Easy integration with external APIs (email providers, CMS, etc.)
-🧱 Project Structure
-.
-├── src/            # Main application source code
-├── components/     # Reusable components
-├── services/       # Business logic and integrations
-├── utils/          # Helper functions
-├── public/         # Static assets
-└── config/         # Configuration files
+1. O agente é criado em `src/agente_websearch.py` usando:
+   - `agno.Agent`
+   - modelo `Ollama(id="qwen3.5")`
+   - `TavilyTools()` e a ferramenta de envio de email `envia_email_tool`
+2. O prompt é carregado de `prompts/prompt.md` e enviado ao agente.
+3. O agente realiza a pesquisa e, se configurado, envia o conteúdo por email.
+4. O script principal verifica a janela de execução entre `10:00` e `10:14` BRT antes de rodar.
 
-The structure may vary depending on the stack used.
+## Requisitos
 
-🛠️ Technologies
+- Python 3.11+ (recomendado)
+- `requirements.txt` com as bibliotecas necessárias
 
-This project may include (depending on implementation):
+Instalação:
 
-Frontend: React / Next.js / HTML / CSS
-Backend: Node.js / Express
-Database: MongoDB / PostgreSQL / Firebase
-Email services: SendGrid, Mailgun, or SMTP
-⚙️ Installation
-# Clone the repository
-git clone https://github.com/LMRocha/NewsLetterFinanceira.git
+```bash
+pip install -r requirements.txt
+```
 
-# Enter the project folder
-cd NewsLetterFinanceira
+> Observação: o módulo `email` faz parte da biblioteca padrão do Python.
 
-# Install dependencies
-npm install
-# or
-yarn install
+## Configuração do ambiente
 
-# Run the project
-npm run dev
-# or
-yarn dev
-🔧 Configuration
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
-Create a .env file in the root directory and configure the required variables:
+```env
+EMAIL_ADDRESS=seu_email@gmail.com
+EMAIL_PASSWORD=sua_senha_de_app
+DESTINATARIOS=destino1@example.com,destino2@example.com
+```
 
-EMAIL_API_KEY=your_api_key
-DATABASE_URL=your_database_url
-APP_URL=http://localhost:3000
+## Execução
 
-Adjust according to the services you use.
+Rode o script principal:
 
-📤 Usage
-Add subscribers to your list
-Create a newsletter (content, subject, etc.)
-Send or schedule delivery
-Track engagement (if analytics are enabled)
-🔄 Customization
+```bash
+python src/agente_websearch.py
+```
 
-You can easily adapt this project to different use cases:
+O script somente tenta enviar a newsletter se o horário local em Brasília estiver entre `10:00` e `10:14`.
 
-📰 News websites
-💰 Financial insights
-📚 Educational content
-🛍️ Marketing campaigns
-👤 Personal newsletters
-🤝 Contributing
+## Personalização
 
-Contributions are welcome!
+- Edite `prompts/prompt.md` para ajustar o briefing dado ao agente.
+- Ajuste o modelo ou as ferramentas em `src/agente_websearch.py` conforme necessário.
 
-Fork the repository
-Create a new branch (feature/my-feature)
-Commit your changes
-Open a Pull Request
+## Avisos
+
+- Verifique as configurações de SMTP do Gmail e habilite senha de app se estiver usando autenticação de dois fatores.
+- Use as credenciais com cuidado e evite compartilhar o `.env` publicamente.
