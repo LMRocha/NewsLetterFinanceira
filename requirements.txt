@@ -1,0 +1,6 @@
+agno
+dotenv
+ollama
+openai
+tavily-python
+email
